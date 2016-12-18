@@ -24,7 +24,7 @@ public class AppConfig {
 
 
     @Bean
-    public PropertyPlaceholderConfigurer propertyConfigurer() {
+    public static PropertyPlaceholderConfigurer propertyConfigurer() {
         PropertyPlaceholderConfigurer configurer = new PropertyPlaceholderConfigurer();
 
         ClassPathResource dataSource = new ClassPathResource("db.properties");
