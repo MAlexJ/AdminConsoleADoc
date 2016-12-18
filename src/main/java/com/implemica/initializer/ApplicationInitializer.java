@@ -4,12 +4,10 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.*;
 
 /**
  * @author malex
@@ -28,7 +26,16 @@ public class ApplicationInitializer implements WebApplicationInitializer {
      */
     private final static long MAX_FILE_SIZE = 2000000;
     private final static long MAX_REQUEST_SIZE = 10000000;
-    private final static int FILE_SIZE_THRESHOLD =0;
+    private final static int FILE_SIZE_THRESHOLD = 0;
+
+    /**
+     * CharacterEncodingFilter
+     * Encoding :UTF-8
+     */
+    private final static String ENCODING_FILTER_NAME = "encoding-filter";
+    private final static String ENCODING_UTF = "UTF-8";
+    private final static String ENCODING = "encoding";
+    private final static String ENCODING_PATH = "/*";
 
 
     @Override
@@ -44,6 +51,12 @@ public class ApplicationInitializer implements WebApplicationInitializer {
         //Create DispatcherServlet
         DispatcherServlet dispatcherServlet = new DispatcherServlet(context);
 
+        // Added new Filter CharacterEncodingFilter UTF-8
+        FilterRegistration.Dynamic encodingFilter = servletContext.addFilter(ENCODING_FILTER_NAME, new CharacterEncodingFilter());
+        encodingFilter.setInitParameter(ENCODING, ENCODING_UTF);
+        encodingFilter.setInitParameter("forceEncoding", "true");
+        encodingFilter.addMappingForUrlPatterns(null, true, ENCODING_PATH);
+
         //  ServletRegistration
         ServletRegistration.Dynamic servletRegistration = servletContext.addServlet(DISPATCHER, dispatcherServlet);
         servletRegistration.addMapping(MAPPING_URL);
@@ -51,12 +64,22 @@ public class ApplicationInitializer implements WebApplicationInitializer {
         servletRegistration.setMultipartConfig(getMultiPartConfigElement());
     }
 
+    /**
+     * Initialize AnnotationConfigWebApplicationContext
+     *
+     * @return the spring app context
+     */
     private AnnotationConfigWebApplicationContext getContext() {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.setConfigLocation(CONFIG_LOCATION);
         return ctx;
     }
 
+    /**
+     * The method using to configure download or upload files
+     *
+     * @return MultipartConfigElement
+     */
     private MultipartConfigElement getMultiPartConfigElement() {
         return new MultipartConfigElement("", MAX_FILE_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
     }

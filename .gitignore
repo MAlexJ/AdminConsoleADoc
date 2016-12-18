@@ -1,3 +1,4 @@
 .idea
 target
 AdminConsoleADoc.iml
+/src/main/webapp/resources/node_modules/
