@@ -12,46 +12,17 @@ var core_1 = require("@angular/core");
 var LoginComponent = (function () {
     function LoginComponent() {
     }
-    LoginComponent.prototype.login = function (email, password) {
-        this.user = new User();
-        this.user.password = password;
-        this.user.email = email;
-        console.log(this.user);
+    LoginComponent.prototype.login = function (username, password) {
+        console.log(username + ' ' + password);
     };
     return LoginComponent;
 }());
 LoginComponent = __decorate([
     core_1.Component({
         selector: 'login-app',
-        templateUrl: 'app.login',
-        styles: ["\n        #login_form {\n            padding-top: 40px;\n            padding-bottom: 40px;\n            background-color: #303641;\n            color: #C1C3C6\n         }\n    "]
+        templateUrl: 'app.login.html',
+        styleUrls: ['app.login.css']
     }),
     __metadata("design:paramtypes", [])
 ], LoginComponent);
 exports.LoginComponent = LoginComponent;
-var User = (function () {
-    function User() {
-    }
-    Object.defineProperty(User.prototype, "email", {
-        get: function () {
-            return this._email;
-        },
-        set: function (value) {
-            this._email = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(User.prototype, "password", {
-        get: function () {
-            return this._password;
-        },
-        set: function (value) {
-            this._password = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return User;
-}());
-exports.User = User;

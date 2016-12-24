@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Path to the template for Angular 2
+ * Mapping resources/templates
  *
  * @author malex
  */
@@ -24,11 +24,19 @@ public class AppComponentController {
     }
 
     /**
-     * The path to the Login page
+     * The path to the login JSP template
      */
-    @RequestMapping(path = "/app.login", method = RequestMethod.GET)
+    @RequestMapping(path = "/app.login.html", method = RequestMethod.GET)
     public String app_login_GET() {
-        return "component/login/app.login";
+        return "component/login/app.login.html";
+    }
+
+    /**
+     * The path to the login CSS template
+     */
+    @RequestMapping(path = "/app.login.css", method = RequestMethod.GET)
+    public String app_login_css_GET() {
+        return "component/login/app.login.css";
     }
 
     /**
